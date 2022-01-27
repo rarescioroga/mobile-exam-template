@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const backendUrl = 'http://localhost:3001/';
+const backendUrl = 'http://localhost:3001';
 
 export const getItems = async () => {
   return axios.get(`${backendUrl}/items/`)
@@ -8,6 +8,13 @@ export const getItems = async () => {
       return response;
     });
 };
+
+export const getTasks = async (queryParam) => {
+  return axios.get(`${backendUrl}/task?q=${queryParam}`)
+    .then(response => {
+      return response;
+    });
+}
 
 export const updateItems = async (updatedItem) => {
 
