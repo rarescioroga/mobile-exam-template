@@ -1,0 +1,7 @@
+{
+  "name": "mobile-exam-template",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react"
+}
