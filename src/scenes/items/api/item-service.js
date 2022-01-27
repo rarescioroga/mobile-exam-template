@@ -9,8 +9,13 @@ export const getItems = async () => {
     });
 };
 
-export const getTasks = async (queryParam) => {
-  return axios.get(`${backendUrl}/task?q=${queryParam}`)
+export const getTasks = async (queryParam, setProgress) => {
+  return axios.get(`${backendUrl}/task?q=${queryParam}`, {
+    onDownloadProgress: progressEvent => {
+      let percentCompleted = Math.floor(progressEvent.loaded / progressEvent.total * 100)
+      setProgress(percentCompleted);
+    }
+  })
     .then(response => {
       return response;
     });
@@ -21,6 +26,17 @@ export const updateItems = async (updatedItem) => {
   return axios.put(`${backendUrl}/items/`, updatedItem)
     .then(response => {
       return response;
+    });
+}
+
+export const updateTask = async (updatedItem) => {
+  return axios.put(`${backendUrl}/task/${updatedItem.id}`, updatedItem)
+    .then(response => {
+      return response;
+    })
+    .catch(err => {
+      console.log('error ------------------->> ', err);
+      return err;
     });
 }
 

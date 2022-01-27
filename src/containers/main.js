@@ -13,6 +13,15 @@ export const ContainerProvider = ({ children }) => {
       setItems(items) {
         dispatch({ type: 'items', payload: items });
       },
+      setItem(id, item) {
+        dispatch({ type: 'item', payload: { id, item } });
+      },
+      setVersionConflict(value) {
+        dispatch({ type: 'versionConflict', payload: value });
+      },
+      setProgress(progress) {
+        dispatch({ type: 'progress', payload: progress });
+      }
     }
   }, []);
 
