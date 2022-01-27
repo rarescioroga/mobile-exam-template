@@ -13,6 +13,26 @@ export const ContainerProvider = ({ children }) => {
       setItems(items) {
         dispatch({ type: 'items', payload: items });
       },
+
+      setItem(id, item) {
+        dispatch({ type: 'item', payload: { id, item } });
+      },
+
+      setProducts(products) {
+        dispatch({ type: 'products', payload: products });
+      },
+
+      setProgress(value) {
+        dispatch({ type: 'progress', payload: value });
+      },
+
+      setSelectedCard(card) {
+        dispatch({ type: 'selectedCard', payload: card });
+      },
+
+      setVersionConflict(value) {
+        dispatch({ type: 'versionConflict', payload: value });
+      },
     }
   }, []);
 
