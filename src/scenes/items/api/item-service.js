@@ -1,6 +1,7 @@
 import axios from "axios";
 
 const backendUrl = 'http://localhost:3001';
+export const webSocketUrl = 'ws://localhost:3001';
 
 export const getItems = async () => {
   return axios.get(`${backendUrl}/items/`)
@@ -9,8 +10,8 @@ export const getItems = async () => {
     });
 };
 
-export const getTasks = async (queryParam, setProgress) => {
-  return axios.get(`${backendUrl}/task?q=${queryParam}`, {
+export const getMessages = async (queryParam, setProgress) => {
+  return axios.get(`${backendUrl}/message?sender=${queryParam}`, {
     onDownloadProgress: progressEvent => {
       let percentCompleted = Math.floor(progressEvent.loaded / progressEvent.total * 100)
       setProgress(percentCompleted);
@@ -19,6 +20,17 @@ export const getTasks = async (queryParam, setProgress) => {
     .then(response => {
       return response;
     });
+}
+
+export const deleteMessage = async (message, setProgress) => {
+  return axios.delete(`${backendUrl}/message/${message.id}`, {
+    onDownloadProgress: progressEvent => {
+      let percentCompleted = Math.floor(progressEvent.loaded / progressEvent.total * 100)
+      setProgress(percentCompleted);
+    }
+  }).then(response => {
+    return response;
+  });
 }
 
 export const updateItems = async (updatedItem) => {

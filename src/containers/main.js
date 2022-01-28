@@ -15,6 +15,18 @@ export const ContainerProvider = ({ children }) => {
       },
       setProgress(value) {
         dispatch({ type: 'progress', payload: value });
+      },
+      setUsers(users) {
+        dispatch({ type: 'users', payload: users });
+      },
+      setMessages(messages) {
+        dispatch({ type: 'messages', payload: messages });
+      },
+      setSelectedMessages(messages) {
+        dispatch({ type: 'selectedMessages', payload: messages });
+      },
+      removeMessage(id) {
+        dispatch({ type: 'removeMessage', payload: id });
       }
     }
   }, []);
