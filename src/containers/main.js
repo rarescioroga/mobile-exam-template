@@ -15,6 +15,18 @@ export const ContainerProvider = ({ children }) => {
       },
       setProgress(value) {
         dispatch({ type: 'progress', payload: value });
+      },
+      setQuestions(questions) {
+        dispatch({ type: 'questions', payload: questions });
+      },
+      setCurrentQuestion(currentQuestion) {
+        dispatch({ type: 'currentQuestion', payload: currentQuestion });
+      },
+      setPrevSelectedOption(option) {
+        dispatch({ type: 'prevSelectedOption', payload: option });
+      },
+      setReachedEnd(value) {
+        dispatch({ type: 'reachedEnd', payload: value });
       }
     }
   }, []);

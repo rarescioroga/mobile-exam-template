@@ -9,8 +9,20 @@ export const getItems = async () => {
     });
 };
 
-export const getTasks = async (queryParam, setProgress) => {
-  return axios.get(`${backendUrl}/task?q=${queryParam}`, {
+export const getQuestions = async (setProgress) => {
+  return axios.get(`${backendUrl}/question`, {
+    onDownloadProgress: progressEvent => {
+      let percentCompleted = Math.floor(progressEvent.loaded / progressEvent.total * 100)
+      setProgress(percentCompleted);
+    }
+  })
+    .then(response => {
+      return response;
+    });
+}
+
+export const getQuestion = async (id, setProgress) => {
+  return axios.get(`${backendUrl}/question/${id}`, {
     onDownloadProgress: progressEvent => {
       let percentCompleted = Math.floor(progressEvent.loaded / progressEvent.total * 100)
       setProgress(percentCompleted);
@@ -29,9 +41,14 @@ export const updateItems = async (updatedItem) => {
     });
 }
 
-export const createItem = async (item) => {
+export const sendAnswers = async (answers, setProgress) => {
 
-  return axios.post(`${backendUrl}/items/`, item)
+  return axios.post(`${backendUrl}/answer`, answers, {
+    onDownloadProgress: progressEvent => {
+      let percentCompleted = Math.floor(progressEvent.loaded / progressEvent.total * 100)
+      setProgress(percentCompleted);
+    }
+  })
     .then(response => {
       return response;
     });
