@@ -38,6 +38,8 @@ const ItemCard = ({ item }) => {
             ...response.data,
             index: nextQuestionIndex,
           });
+        } else {
+          console.log('response ------------------->> ', response);
         }
 
         setSelectedOption('');

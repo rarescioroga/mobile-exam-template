@@ -7,6 +7,7 @@ const defaultState = {
   currentQuestion: {},
   prevSelectedOption: [],
   reachedEnd: false,
+  errorMessage: '',
 }
 
 const reducer = (state, action) => {
@@ -46,6 +47,10 @@ const reducer = (state, action) => {
 
     case 'reachedEnd': {
       return { ...state, reachedEnd: action.payload }
+    }
+
+    case 'errorMessage': {
+      return { ...state, errorMessage: action.payload }
     }
 
     default:

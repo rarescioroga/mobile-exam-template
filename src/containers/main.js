@@ -27,6 +27,9 @@ export const ContainerProvider = ({ children }) => {
       },
       setReachedEnd(value) {
         dispatch({ type: 'reachedEnd', payload: value });
+      },
+      setErrorMessage(value) {
+        dispatch({ type: 'errorMessage', payload: value });
       }
     }
   }, []);

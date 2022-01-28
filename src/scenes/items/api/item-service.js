@@ -30,6 +30,9 @@ export const getQuestion = async (id, setProgress) => {
   })
     .then(response => {
       return response;
+    })
+    .catch(err => {
+      return err;
     });
 }
 

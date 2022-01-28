@@ -4,7 +4,7 @@ import {
   IonHeader,
   IonContent,
   IonProgressBar,
-  IonText,
+  IonText, useIonToast,
 } from '@ionic/react';
 import { Storage } from "@capacitor/storage";
 
@@ -15,8 +15,9 @@ import ItemCard from "./ItemCard";
 const ItemList = () => {
   const mutationContext = useGlobalMutation();
   const stateContext = useGlobalState();
-  const { progress, questions, currentQuestion, reachedEnd, prevSelectedOption } = stateContext;
+  const { progress, questions, currentQuestion, reachedEnd, prevSelectedOption, errorMessage } = stateContext;
   const [nrAnswers, setNrAnswers] = useState('');
+  const [present, dismiss] = useIonToast();
 
 
   const checkStorage = async () => {
@@ -43,6 +44,15 @@ const ItemList = () => {
     return !(questionsFromStorage !== null && currentQuestion !== null);
   };
 
+  const showToast = (message) => {
+    present({
+      buttons: [{ text: 'X', handler: () => dismiss() }],
+      message,
+      color: 'danger',
+      duration: 3000
+    });
+  };
+
   const fetchQuestions = () => {
     getQuestions(mutationContext.setProgress)
       .then(response => {
@@ -64,6 +74,8 @@ const ItemList = () => {
             ...response.data,
             index,
           });
+        } else {
+          showToast(`Error fetching question`);
         }
 
         setTimeout(() => {
@@ -85,6 +97,7 @@ const ItemList = () => {
 
   useEffect(() => {
     if(questions.length > 0 && !currentQuestion.text && !reachedEnd){
+      fetchQuestion(-1, -1);
       fetchQuestion(questions[0], 0);
     }
   }, [questions, currentQuestion, reachedEnd]);
@@ -133,6 +146,11 @@ const ItemList = () => {
       <IonHeader>
         Items
       </IonHeader>
+      {
+        errorMessage && (
+          <IonText color={'danger'}>{errorMessage}</IonText>
+        )
+      }
       <IonText>{progress}</IonText>
       <IonProgressBar value={progress/100}/>
       <IonContent>
