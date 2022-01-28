@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {IonPage, IonHeader, IonContent, IonItem, IonInput, IonLoading, IonProgressBar} from '@ionic/react';
+import {IonPage, IonHeader, IonContent, IonItem, IonInput, IonLoading, IonProgressBar, useIonToast} from '@ionic/react';
 
 import {useGlobalMutation, useGlobalState} from "../../../containers/main";
 import {getTasks} from "../api/item-service";
@@ -11,6 +11,18 @@ const ItemList = () => {
   const { items, progress } = stateContext;
   const [userInput, setUserInput] = useState('');
   const [loading, setLoading] = useState(false);
+
+  const [present, dismiss] = useIonToast();
+
+  //call this when request fails
+  const showToast = (message) => {
+    present({
+      buttons: [{ text: 'X', handler: () => dismiss() }],
+      message,
+      color: 'danger',
+      duration: 3000
+    });
+  };
 
   useEffect(() => {
     if(userInput){
