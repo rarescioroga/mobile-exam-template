@@ -13,6 +13,25 @@ export const ContainerProvider = ({ children }) => {
       setItems(items) {
         dispatch({ type: 'items', payload: items });
       },
+      setCurrentQuestion(question) {
+        dispatch({ type: 'currentQuestion', payload: question });
+      },
+      addQuestion(question) {
+        dispatch({ type: 'question', payload: question });
+      },
+      setIsAnswering(value) {
+        dispatch({ type: 'isAnswering', payload: value });
+      },
+      setProgress(value) {
+        dispatch({ type: 'progress', payload: value });
+      },
+      addAnswer(answer) {
+        dispatch({ type: 'answer', payload: answer });
+      },
+      setAnswers(answers) {
+        dispatch({ type: 'answers', payload: answers });
+      }
+
     }
   }, []);
 

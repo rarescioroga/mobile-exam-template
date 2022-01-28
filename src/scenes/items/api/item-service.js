@@ -1,6 +1,18 @@
 import axios from "axios";
 
 const backendUrl = 'http://localhost:3001';
+export const webSocketUrl = 'ws://localhost:3001';
+
+export const answerQuestion = async (questionData, setProgress) => {
+  return axios.post(`${backendUrl}/answer`, questionData, {
+    onDownloadProgress: progressEvent => {
+      let percentCompleted = Math.floor(progressEvent.loaded / progressEvent.total * 100)
+      setProgress(percentCompleted);
+    }
+  }).then(response => {
+    return response;
+  });
+}
 
 export const getItems = async () => {
   return axios.get(`${backendUrl}/items/`)
