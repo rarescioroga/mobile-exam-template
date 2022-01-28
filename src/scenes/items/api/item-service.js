@@ -21,11 +21,30 @@ export const getTasks = async (queryParam, setProgress) => {
     });
 }
 
-export const updateItems = async (updatedItem) => {
-
-  return axios.put(`${backendUrl}/items/`, updatedItem)
+export const getSpaces = async (setProgress) => {
+  return axios.get(`${backendUrl}/space`, {
+    onDownloadProgress: progressEvent => {
+      let percentCompleted = Math.floor(progressEvent.loaded / progressEvent.total * 100)
+      setProgress(percentCompleted);
+    }
+  })
     .then(response => {
       return response;
+    });
+}
+
+export const updateItem = async (updatedItem, setProgress) => {
+  return axios.put(`${backendUrl}/space/${updatedItem.id}`, updatedItem, {
+    onDownloadProgress: progressEvent => {
+      let percentCompleted = Math.floor(progressEvent.loaded / progressEvent.total * 100)
+      setProgress(percentCompleted);
+    }
+  })
+    .then(response => {
+      return response;
+    })
+    .catch(err => {
+      return err;
     });
 }
 

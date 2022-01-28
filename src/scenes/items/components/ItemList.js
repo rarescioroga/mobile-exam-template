@@ -1,55 +1,44 @@
 import React, {useEffect, useState} from 'react';
-import {IonPage, IonHeader, IonContent, IonItem, IonInput, IonLoading, IonProgressBar} from '@ionic/react';
+import {IonPage, IonHeader, IonProgressBar, IonText, IonContent} from '@ionic/react';
 
 import {useGlobalMutation, useGlobalState} from "../../../containers/main";
-import {getTasks} from "../api/item-service";
+import {getSpaces} from "../api/item-service";
 import ItemCard from "./ItemCard";
+
 
 const ItemList = () => {
   const mutationContext = useGlobalMutation();
   const stateContext = useGlobalState();
   const { items, progress } = stateContext;
-  const [userInput, setUserInput] = useState('');
-  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    if(userInput){
-      setLoading(true);
-      getTasks(userInput, mutationContext.setProgress).then(response => {
-        const items = response.data;
-        mutationContext.setItems(items);
-        setLoading(false);
-      });
-    } else {
-      mutationContext.setItems([]);
-    }
+    getSpaces(mutationContext.setProgress)
+      .then(response => {
+        const spaces = response.data;
 
-    setLoading(false);
-  }, [userInput]);
+        mutationContext.setItems(spaces);
+
+        setTimeout(() => {
+          mutationContext.setProgress(0);
+        }, 500);
+      });
+
+  }, []);
 
   return (
     <IonPage style={{padding: 16}}>
-      <IonHeader>
+      <IonHeader style={{marginBottom: 16 }}>
         Items
       </IonHeader>
-      <IonProgressBar value={progress/100}/>
+      <IonText>{progress}</IonText>
+      <IonProgressBar value={progress/100} style={{marginBottom: 16 }}/>
       <IonContent>
-        <IonItem style={{marginTop: 16, marginBottom: 16}}>
-          <IonInput value={userInput} onIonChange={(e) => setUserInput(e.detail.value)} type={"text"} placeholder={'Search for tasks'}/>
-        </IonItem>
         {
-          items.length > 0 ? (
-            items.map(item => (
-              <ItemCard key={item.text} title={item.text} subtitle={item.status} body={item.version}/>
-            ))
-          ) : (
-            <IonHeader>
-              No items yet. Search for some
-            </IonHeader>
-          )
+          items.map(item => (
+            <ItemCard key={item.id} title={`Number: ${item.number}`} subtitle={item.status} body={`Taken by: ${item.takenBy}`} item={item}/>
+          ))
         }
       </IonContent>
-      <IonLoading isOpen={loading}/>
     </IonPage>
   )
 };
