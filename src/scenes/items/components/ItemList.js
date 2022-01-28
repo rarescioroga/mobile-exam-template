@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {IonPage, IonHeader, IonContent, IonItem, IonInput, IonLoading} from '@ionic/react';
+import {IonPage, IonHeader, IonContent, IonItem, IonInput, IonLoading, IonProgressBar} from '@ionic/react';
 
 import {useGlobalMutation, useGlobalState} from "../../../containers/main";
 import {getTasks} from "../api/item-service";
@@ -8,14 +8,14 @@ import ItemCard from "./ItemCard";
 const ItemList = () => {
   const mutationContext = useGlobalMutation();
   const stateContext = useGlobalState();
-  const { items } = stateContext;
+  const { items, progress } = stateContext;
   const [userInput, setUserInput] = useState('');
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if(userInput){
       setLoading(true);
-      getTasks(userInput).then(response => {
+      getTasks(userInput, mutationContext.setProgress).then(response => {
         const items = response.data;
         mutationContext.setItems(items);
         setLoading(false);
@@ -32,6 +32,7 @@ const ItemList = () => {
       <IonHeader>
         Items
       </IonHeader>
+      <IonProgressBar value={progress/100}/>
       <IonContent>
         <IonItem style={{marginTop: 16, marginBottom: 16}}>
           <IonInput value={userInput} onIonChange={(e) => setUserInput(e.detail.value)} type={"text"} placeholder={'Search for tasks'}/>

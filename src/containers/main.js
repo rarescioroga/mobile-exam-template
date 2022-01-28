@@ -13,6 +13,9 @@ export const ContainerProvider = ({ children }) => {
       setItems(items) {
         dispatch({ type: 'items', payload: items });
       },
+      setProgress(value) {
+        dispatch({ type: 'progress', payload: value });
+      }
     }
   }, []);
 
